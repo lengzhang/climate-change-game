@@ -153,22 +153,27 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">const imageCharMapper = {
 	knife: "&#128481;"
 }
-State.setVar("$stepCounter", 2)
-State.setVar("$inventory", {
-	knife: 0,
-	cans: 0,
-})
-/** Isle Control */
-State.setVar("$firstIsleCounter", 0)
-State.setVar("$secondIsleCounter", 0)
-State.setVar("$person1", 0)
-State.setVar("$thirdIsleCounter", 0)
-State.setVar("$fourthIsleCounter", 0)
-/** Item Got */
-State.setVar("$knife1", false)
-State.setVar("$cans1", 2)
-State.setVar("$ateCans", false)
-State.setVar("$isHungry", true)
+
+function initialGameState() {
+	State.setVar("$stepCounter", 2)
+	State.setVar("$inventory", {
+		knife: 0,
+		cans: 0,
+	})
+	/** Isle Control */
+	State.setVar("$firstIsleCounter", 0)
+	State.setVar("$secondIsleCounter", 0)
+	State.setVar("$person1", 0)
+	State.setVar("$thirdIsleCounter", 0)
+	State.setVar("$fourthIsleCounter", 0)
+	/** Item Got */
+	State.setVar("$knife1", false)
+	State.setVar("$cans1", 2)
+	State.setVar("$ateCans", false)
+	State.setVar("$isHungry", true)
+}
+
+initialGameState()
 
 Macro.add('inventory', {
 	skipArgs: true,
@@ -193,11 +198,44 @@ Macro.add('inventory-update', {
 	}
 })
 
-SimpleAudio.tracks.add("hail-storm-sound-effect", "media/audio/hail-storm-sound-effect.mp3")
-if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
-	SimpleAudio.tracks.get("hail-storm-sound-effect").volume(1).play()
-}
-</script><tw-passagedata pid="1" name="Start" tags="" position="799,300" size="100,100">&lt;&lt;set _clicked = false&gt;&gt;\
+/** Audio */
+const REPOSITORY_LINK = "https://raw.githubusercontent.com/lengzhang/climate-change-game/main"
+const FILE_PATH = window.location.origin;
+SimpleAudio.tracks.add("hail-storm-sound-effect", `${REPOSITORY_LINK}/media/audio/hail-storm-sound-effect.mp3`)
+
+Macro.add('play-audio', {
+	handler: function(props) {
+		const trackId = this.args[0]
+		if (!!trackId) {
+			if (SimpleAudio.tracks.has(trackId)) {
+				const track = SimpleAudio.tracks.get(trackId)
+				if (!track?.isPlaying()) track.volume(0.8).play()
+			}
+		}
+	}
+})
+
+Macro.add('stop-audio', {
+	handler: function(props) {
+		const trackId = this.args[0]
+		if (!!trackId) {
+			if (SimpleAudio.tracks.has(trackId)) {
+				const track = SimpleAudio.tracks.get(trackId)
+				if (track?.isPlaying()) track.stop()
+			}
+		}
+	}
+})
+
+/** Restart */
+Macro.add('restart', {
+	skipArgs: true,
+	handler: function() {
+		SimpleAudio.stop()
+		initialGameState()
+		Engine.goTo(0)
+	}
+})</script><tw-passagedata pid="1" name="Start" tags="" position="799,299" size="100,100">&lt;&lt;set _clicked = false&gt;&gt;\
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
 	&lt;div id=&quot;inventories-block&quot;&gt;\
@@ -296,6 +334,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="5" name="Outside of Supermarket" tags="" position="1400,500" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _meetGuys = $inventory.knife &gt; 0 &amp;&amp; $inventory.cans &gt; 0&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -436,7 +475,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -472,6 +511,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="11" name="Wait" tags="" position="1400,900" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _seconds = 5&gt;&gt;
+	&lt;&lt;audio &quot;hail-storm-sound-effect&quot; fadeout&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -541,7 +581,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -626,7 +666,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 3s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -770,7 +810,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -820,7 +860,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -843,11 +883,11 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
-&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="28" name="Switch with the girl" tags="" position="1400,2799" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="28" name="Switch with the girl" tags="" position="1399,2799" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
@@ -863,7 +903,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 				&lt;img style=&quot;object-fit: scale-down; width: 100%;&quot; src=&quot;https://pbs.twimg.com/media/ECln9rRW4AEbQoX.jpg&quot;&gt;\
 			&lt;&lt;/type&gt;&gt;\
 		&lt;/div&gt;
-		&lt;div id=&quot;controller&quot;&gt;\
+		&lt;div id=&quot;controller&quot;&gt;
 			[[Open trash can 1-&gt;Trash can 1]]
 			[[Open trash can 2-&gt;Trash can 2]]
 			[[Open trash can 3-&gt;Trash can 3]]
@@ -871,8 +911,9 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 			[[Open trash can 5-&gt;Trash can 5]]
 		&lt;/div&gt;\
 	&lt;/div&gt;\
-&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="29" name="Trash can 1" tags="" position="1300,3000" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="29" name="Trash can 1" tags="" position="1299,2999" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -893,6 +934,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="30" name="Trash can 2" tags="" position="1601,3001" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -913,6 +955,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="31" name="Trash can 3" tags="" position="1802,2999" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -933,6 +976,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="32" name="Trash can 4" tags="" position="2002,3001" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -954,6 +998,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="33" name="Trash can 5" tags="" position="1501,3200" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _isMissed = $stepCounter &gt; 25&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -970,11 +1015,11 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 			&lt;&lt;/type&gt;&gt;\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
-			&lt;&lt;if _isMissed&gt;&gt;
-			[[Continue-&gt;Run from lava]]
+			&lt;&lt;if _isMissed&gt;&gt;\
+				[[Continue-&gt;Run from lava]]
 			&lt;&lt;else&gt;&gt;
-			[[Use the time machine-&gt;Use the time machine]]
-			[[Don&#39;t trust the AI-&gt;Deadend: Don&#39;t trust the AI]]
+				[[Use the time machine-&gt;Use the time machine]]
+				[[Don&#39;t trust the AI-&gt;Deadend: Don&#39;t trust the AI]]
 			&lt;&lt;/if&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -995,7 +1040,7 @@ if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1182,7 +1227,7 @@ Suddenly, you remember that you do not have much food left inside your apartment
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1220,7 +1265,7 @@ Suddenly, you remember that you do not have much food left inside your apartment
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1276,6 +1321,7 @@ Suddenly, you remember that you do not have much food left inside your apartment
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="51" name="Use the time machine" tags="" position="1500,3400" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -1378,7 +1424,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 1.5s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1399,11 +1445,11 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
-&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="57" name="Deadend: Fight Dog" tags="" position="1700,300" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="57" name="Deadend: Fight Dog" tags="" position="1700,298" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
@@ -1423,7 +1469,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1447,7 +1493,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1467,7 +1513,7 @@ You replied:\
 			&lt;&lt;/type&gt;&gt;\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
-		&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+		&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 		&lt;/div&gt;\
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="60" name="Deadend: Leave the Mall" tags="" position="1802,1900" size="100,100">&lt;&lt;nobr&gt;&gt;
@@ -1487,12 +1533,13 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 3s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="61" name="Run from lava" tags="" position="1700,3201" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -1544,7 +1591,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1583,7 +1630,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1606,7 +1653,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
@@ -1629,7 +1676,7 @@ You replied:\
 		&lt;/div&gt;
 		&lt;div id=&quot;controller&quot;&gt;\
 			&lt;&lt;timed 2s t8n&gt;&gt;\
-				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;script&gt;&gt;Engine.restart()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+				&lt;&lt;link &quot;Restart&quot;&gt;&gt;&lt;&lt;restart&gt;&gt;&lt;&lt;/link&gt;&gt;
 			&lt;&lt;/timed&gt;&gt;\
 		&lt;/div&gt;\
 	&lt;/div&gt;\
