@@ -191,7 +191,13 @@ Macro.add('inventory-update', {
 			$(`#${key}-value`).html(State.variables.inventory[key] ?? 0)
 		})
 	}
-})</script><tw-passagedata pid="1" name="Start" tags="" position="799,300" size="100,100">&lt;&lt;set _clicked = false&gt;&gt;\
+})
+
+SimpleAudio.tracks.add("hail-storm-sound-effect", "media/audio/hail-storm-sound-effect.mp3")
+if (SimpleAudio.tracks.has("hail-storm-sound-effect") {
+	SimpleAudio.tracks.get("hail-storm-sound-effect").volume(1).play()
+}
+</script><tw-passagedata pid="1" name="Start" tags="" position="799,300" size="100,100">&lt;&lt;set _clicked = false&gt;&gt;\
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
 	&lt;div id=&quot;inventories-block&quot;&gt;\
