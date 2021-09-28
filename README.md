@@ -2,9 +2,7 @@
 A Twine game built by SugarCube v2
 
 ## Author
-- [Leng Zhang](https://www.linkedin.com/in/lengzhang/)
-- [Leng Zhang](https://www.linkedin.com/in/lengzhang/)
-- [Leng Zhang](https://www.linkedin.com/in/lengzhang/)
+- [Leng Zhang](https://github.com/lengzhang)
 
 ## How to develop?
 1. Go to [Twine](https://twinery.org/2/#!/stories)

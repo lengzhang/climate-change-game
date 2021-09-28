@@ -333,7 +333,7 @@ Macro.add('restart', {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="5" name="Outside of Supermarket" tags="" position="1400,500" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _meetGuys = $inventory.knife &gt; 0 &amp;&amp; $inventory.cans &gt; 0&gt;&gt;
-	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -481,6 +481,7 @@ Macro.add('restart', {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="10" name="Run" tags="" position="1400,700" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _ableEatCans = $inventory.knife &gt;= 1 &amp;&amp; $inventory.cans &gt;= 1&gt;&gt;
+	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -545,6 +546,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="12" name="Go home" tags="" position="1400,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -816,6 +818,7 @@ Macro.add('restart', {
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="25" name="Hop on train" tags="" position="1400,2600" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _isMissed = $stepCounter &gt; 20&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -888,6 +891,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="28" name="Switch with the girl" tags="" position="1399,2799" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -994,7 +998,7 @@ Macro.add('restart', {
 			[[Open trash can 5-&gt;Trash can 5]]
 		&lt;/div&gt;\
 	&lt;/div&gt;\
-&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="33" name="Trash can 5" tags="" position="1501,3200" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;/div&gt;\</tw-passagedata><tw-passagedata pid="33" name="Trash can 5" tags="" position="1501,3199" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
 	&lt;&lt;set _isMissed = $stepCounter &gt; 25&gt;&gt;
 	&lt;&lt;play-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
@@ -1429,6 +1433,7 @@ You replied:\
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="56" name="Deadend: Outside of Supermarket" tags="" position="1592,900" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;hail-storm-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
