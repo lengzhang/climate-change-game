@@ -200,7 +200,10 @@ Macro.add('inventory-update', {
 
 /** Audio */
 const REPOSITORY_LINK = "https://raw.githubusercontent.com/lengzhang/climate-change-game/main"
+
 SimpleAudio.tracks.add("hail-storm-sound-effect", `${REPOSITORY_LINK}/media/audio/hail-storm-sound-effect.mp3`)
+SimpleAudio.tracks.add("car-sound-effect", `${REPOSITORY_LINK}/media/audio/car-sound-effect.mp3`)
+SimpleAudio.tracks.add("stopping-car-sound-effect", `${REPOSITORY_LINK}/media/audio/stopping-car-sound-effect.mp3`)
 
 Macro.add('play-audio', {
 	handler: function(props) {
@@ -588,6 +591,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="14" name="Search the surrounding" tags="" position="1400,1300" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -610,6 +614,8 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="15" name="While Driving" tags="" position="1400,1500" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;stopping-car-sound-effect&quot;&gt;&gt;
+	&lt;&lt;play-audio &quot;car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -631,6 +637,8 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="16" name="Looking for food" tags="" position="1400,1700" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;car-sound-effect&quot;&gt;&gt;
+	&lt;&lt;play-audio &quot;stopping-car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -652,6 +660,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="17" name="Deadend: Go to gigafactory" tags="" position="1200,1500" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;play-audio &quot;car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -673,6 +682,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="18" name="Ask for food" tags="" position="1600,1700" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;stopping-car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
@@ -693,6 +703,7 @@ Macro.add('restart', {
 	&lt;/div&gt;\
 &lt;/div&gt;\</tw-passagedata><tw-passagedata pid="19" name="Inform the group about the news" tags="" position="1400,1900" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set $stepCounter += 1&gt;&gt;
+	&lt;&lt;stop-audio &quot;stopping-car-sound-effect&quot;&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;h2 id=&quot;title&quot;&gt;&#39;&#39;&lt;&lt;print passage()&gt;&gt;&#39;&#39;&lt;/h2&gt;\
 &lt;div id=&quot;root&quot;&gt;\
